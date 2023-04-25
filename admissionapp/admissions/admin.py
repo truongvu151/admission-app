@@ -1,32 +1,14 @@
-from django import forms
 from django.contrib import admin
-from .models import Admission, AdmissionType, Banner, Faculty, Livestream, Question, Video
+from .forms import AdmissionForm, FacultyForm, LiveStreamForm
+from .models import Admission, AdmissionType, Banner, Faculty, Livestream, Question, UserAccount, Video
 
-from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django.utils.safestring import mark_safe
 
-# Form
-class AdmissionForm(forms.ModelForm):
-    content = forms.CharField(widget=CKEditorUploadingWidget)
 
-    class Meta:
-        model = Admission
-        fields = '__all__'
-
-class FacultyForm(forms.ModelForm):
-    description = forms.CharField(widget=CKEditorUploadingWidget)
+# UserAdmin
+class UserAccountAdmin(admin.ModelAdmin):
+    list_display = ['username', 'email']
     
-    class Meta:
-        model = Faculty
-        fields = '__all__'
-        
-class LiveStreamForm(forms.ModelForm):
-    description = forms.CharField(widget=CKEditorUploadingWidget)
-    
-    class Meta:
-        model = Livestream
-        fields = '__all__'
-        
 # AdmissionType Admin
 class AdmissionTypeAdmin(admin.ModelAdmin):
     list_display = ['id', 'type', 'updated_date', 'active', 'slug']
@@ -74,6 +56,7 @@ class QuestionAdmin(admin.ModelAdmin):
     list_display = ['id', 'title']
     
 # Register your models here.
+admin.site.register(UserAccount, UserAccountAdmin)
 admin.site.register(AdmissionType, AdmissionTypeAdmin)
 admin.site.register(Admission, AdmissionAdmin)
 admin.site.register(Faculty, FacultyAdmin)

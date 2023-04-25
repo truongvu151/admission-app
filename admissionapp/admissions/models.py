@@ -1,6 +1,8 @@
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from ckeditor.fields import RichTextField
+
 
 # Create your models here.
 # Model Base
@@ -14,13 +16,19 @@ class BaseModel(models.Model):
         abstract = True
         ordering = ["id"]
 # Model User
-class User(AbstractUser):
-    pass
+class UserAccount(AbstractUser):
+    is_online = models.DateTimeField(default=timezone.now)
 
-# Model Consultant
-class Consultant(User):
-    pass
+class UserProfile(BaseModel):
+    user = models.OneToOneField(UserAccount, related_name="user_profile", on_delete=models.CASCADE)
+    about = models.TextField()
+    avatar = models.ImageField(upload_to='users/%Y/%m', null=True)
 
+
+    def __str__(self):
+        return self.user.username
+        
+###########################################################################
 # Model Admission
 class Admission(BaseModel):
     title = models.CharField(max_length=255)
