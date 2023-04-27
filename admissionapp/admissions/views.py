@@ -14,6 +14,5 @@ class AdmissionTypeViewSet(viewsets.ViewSet, generics.ListAPIView):
     serializer_class = AdmissionTypeSerializer
     
 
-class AdmissionViewSet(viewsets.ViewSet):
-    
+
     

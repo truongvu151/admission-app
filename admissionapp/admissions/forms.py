@@ -1,6 +1,6 @@
 from django import forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
-from .models import Admission, Faculty, Livestream
+from .models import Admission, Banner, Faculty, Livestream
 
 # forms
 class AdmissionForm(forms.ModelForm):
@@ -24,3 +24,8 @@ class LiveStreamForm(forms.ModelForm):
         model = Livestream
         fields = '__all__'
         
+class BannerForm(forms.ModelForm):
+    
+    class Meta:
+        model = Banner
+        fields = '__all__'

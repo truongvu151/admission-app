@@ -29,6 +29,8 @@ class UserProfile(BaseModel):
         return self.user.username
         
 ###########################################################################
+# Model groups
+
 # Model Admission
 class Admission(BaseModel):
     title = models.CharField(max_length=255)
@@ -97,7 +99,7 @@ class Livestream(BaseModel):
         return self.title
 # Model Banner
 class Banner(BaseModel):
-    image = models.ImageField(upload_to='banners/%Y/%m/', null=True, blank=True)
+    image = models.ImageField(upload_to='banners/%Y/%m/', null=True)
 
     def __str__(self):
         return self.image

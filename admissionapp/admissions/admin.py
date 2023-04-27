@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .forms import AdmissionForm, FacultyForm, LiveStreamForm
-from .models import Admission, AdmissionType, Banner, Faculty, Livestream, Question, UserAccount, Video
+from .forms import AdmissionForm, BannerForm, FacultyForm, LiveStreamForm
+from .models import Admission, AdmissionType, Banner, Faculty, Major, Livestream, Question, UserAccount, Video
 
 from django.utils.safestring import mark_safe
 
@@ -27,6 +27,11 @@ class FacultyAdmin(admin.ModelAdmin):
     list_filter = ['id', 'name', 'created_date']
     form = FacultyForm
 
+# Major Admin
+class MajorAdmin(admin.ModelAdmin):
+    list_display = ['id', 'code', 'name']
+    search_fields = ['code', 'name']
+    
 # Livestream Admin
 class LivestreamAdmin(admin.ModelAdmin):
     list_display = ['id', 'title', 'description', 'updated_date', 'active', 'slug']
@@ -46,7 +51,8 @@ class LivestreamAdmin(admin.ModelAdmin):
 # Banner Admin
 class BannerAdmin(admin.ModelAdmin):
     list_display = ['id', 'image']
-    readonly_fields = ['image']
+    readonly_fields = ['image_display']
+    form = BannerForm
     
     def image_display(self, obj):
         if obj:        
@@ -60,6 +66,7 @@ admin.site.register(UserAccount, UserAccountAdmin)
 admin.site.register(AdmissionType, AdmissionTypeAdmin)
 admin.site.register(Admission, AdmissionAdmin)
 admin.site.register(Faculty, FacultyAdmin)
+admin.site.register(Major, MajorAdmin)
 admin.site.register(Livestream, LivestreamAdmin)
 admin.site.register(Video, VideoAdmin)
 admin.site.register(Banner, BannerAdmin)
