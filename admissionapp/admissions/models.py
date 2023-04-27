@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from ckeditor.fields import RichTextField
+from autoslug import AutoSlugField
 
 
 # Create your models here.
@@ -10,7 +11,6 @@ class BaseModel(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
-    slug = models.SlugField(default="", null=False, unique=True)
     
     class Meta:
         abstract = True
@@ -37,14 +37,16 @@ class Admission(BaseModel):
     content = RichTextField()
     image = models.ImageField(upload_to='admissions/%Y/%m/', null=True, blank=True)
     admission_type = models.ForeignKey('AdmissionType', on_delete=models.CASCADE, related_name='admissions') # 1 admission type - n admission
-
+    slug = AutoSlugField(populate_from='title', unique=True, null=True, blank=True)
+    
     def __str__(self):
         return self.title
 
 # Model AdmissionType
 class AdmissionType(BaseModel):
     type = models.CharField(max_length=100, unique=True)
-    
+    slug = AutoSlugField(populate_from='type', unique=True, null=True, blank=True)
+
     def __str__(self):
         return self.type    
     
@@ -53,6 +55,8 @@ class Faculty(BaseModel):
     name = models.CharField(max_length=100, unique=True)
     description = RichTextField() # nội dung, điểm trung bình, ảnh khoa (nếu có)
     website = models.URLField(blank=True)
+    slug = AutoSlugField(populate_from='name', unique=True, null=True, blank=True)
+
     
     class Meta:
         ordering = ["name"]
@@ -94,15 +98,15 @@ class Livestream(BaseModel):
     title = models.TextField(max_length=100)
     description = RichTextField()
     time = models.DateTimeField()
-    
+    slug = AutoSlugField(populate_from='title', unique=True, null=True, blank=True)
+
     def __str__(self):
         return self.title
 # Model Banner
 class Banner(BaseModel):
+    name = models.CharField(max_length=255, null=True)
     image = models.ImageField(upload_to='banners/%Y/%m/', null=True)
 
-    def __str__(self):
-        return self.image
     
 # Model Question
 class Question(BaseModel):

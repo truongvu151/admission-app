@@ -65,6 +65,7 @@ ROOT_URLCONF = 'admissionapp.urls'
 
 # media
 MEDIA_ROOT = '%s/admissions/static/' % BASE_DIR
+# MEDIA_URL = '/static/'
 
 TEMPLATES = [
     {
