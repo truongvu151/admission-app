@@ -15,7 +15,7 @@ class AdmissionTypeAdmin(admin.ModelAdmin):
     
 # Admission Admin
 class AdmissionAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'content', 'updated_date', 'active']
+    list_display = ['id', 'title', 'updated_date', 'active']
     search_fields = ['title']
     list_filter = ['id', 'title', 'created_date']
     form = AdmissionForm

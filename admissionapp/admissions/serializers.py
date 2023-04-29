@@ -23,12 +23,26 @@ class AdmissionSerializer(ImageSerializer):
     class Meta:
         model = Admission
         fields = ['id', 'title', 'content', 'image']
-        
+
+class VideoSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Video
+        fields = ['id', 'url']      
+          
 class FacultySerializer(ImageSerializer):
+        
     class Meta:
         model = Faculty
-        fields = ['id', 'name', 'description', 'website']
-        
-class VideoSerializer(ImageSerializer):
-    model = Video
-    fields = ['id', 'url']
+        fields = ['id', 'name', 'created_date', 'updated_date']
+
+class FacultyDetailSerializer(ImageSerializer):
+    videos = VideoSerializer(many=True)
+    
+    class Meta:
+        model = Faculty
+        fields = ['id', 'slug', 'description', 'website', 'videos']
+        lookup_field = 'slug'
+        extra_kwargs = {
+            'url': {'lookup_field': 'slug'}
+        }

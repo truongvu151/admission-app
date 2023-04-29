@@ -5,8 +5,9 @@ from rest_framework import routers
 from . import views
 
 r = routers.DefaultRouter()
-r.register('admissiontypes', views.AdmissionTypeViewSet, basename='type')
-
+r.register('admission-types', views.AdmissionTypeViewSet, basename='type')
+r.register('admissions', views.AdmissionViewSet, basename='admission')
+r.register('faculties', views.FacultyViewSet, basename='faculty')
 
 urlpatterns = [
     path('', include(r.urls)),
