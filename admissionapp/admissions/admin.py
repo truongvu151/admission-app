@@ -21,11 +21,14 @@ class AdmissionAdmin(admin.ModelAdmin):
     form = AdmissionForm
 
 # Faculty Admin
+class VideoInlineAdmin(admin.TabularInline):
+    model = Video
 class FacultyAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'website', 'updated_date', 'active']
     search_fields = ['name']
     list_filter = ['id', 'name', 'created_date']
     form = FacultyForm
+    inlines = [VideoInlineAdmin, ]
 
 # Major Admin
 class MajorAdmin(admin.ModelAdmin):

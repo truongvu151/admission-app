@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Admission, AdmissionType, Faculty, Video
+from .models import Admission, AdmissionType, Banner, Faculty, Video
 
 
 
@@ -46,3 +46,8 @@ class FacultyDetailSerializer(ImageSerializer):
         extra_kwargs = {
             'url': {'lookup_field': 'slug'}
         }
+        
+class BannerSerializer(ImageSerializer):
+    class Meta:
+        model = Banner
+        fields = ['id', 'name', 'image']

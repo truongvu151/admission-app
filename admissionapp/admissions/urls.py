@@ -8,6 +8,7 @@ r = routers.DefaultRouter()
 r.register('admission-types', views.AdmissionTypeViewSet, basename='type')
 r.register('admissions', views.AdmissionViewSet, basename='admission')
 r.register('faculties', views.FacultyViewSet, basename='faculty')
+r.register('banners', views.BannerViewSet, basename='banner')
 
 urlpatterns = [
     path('', include(r.urls)),

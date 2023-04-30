@@ -2,11 +2,13 @@ from django.shortcuts import render
 from rest_framework import viewsets, generics, permissions, parsers, status
 from rest_framework.decorators import action
 from rest_framework.views import Response
-from .models import Admission, AdmissionType, Faculty
+from .paginators import AdmissionsDetailsPaginator
+from .models import Admission, AdmissionType, Banner, Faculty
 from .serializers import (
    AdmissionSerializer,
    AdmissionTypeSerializer,
    FacultySerializer,
+   BannerSerializer,
 )
 
 
@@ -30,8 +32,26 @@ class AdmissionTypeViewSet(viewsets.ViewSet, generics.ListAPIView):
 class AdmissionViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIView):
     queryset = Admission.objects.filter(active=True)
     serializer_class = AdmissionSerializer 
+    pagination_class = AdmissionsDetailsPaginator
     
-class FacultyViewSet(viewsets.ViewSet, generics.ListAPIView):
+    def get_queryset(self):
+        q = self.queryset
+
+        kw = self.request.query_params.get('kw')
+        if kw:
+            q = q.filter(subject__icontains=kw)
+
+        ad_type_id = self.request.query_params.get('admission_type_id')
+        if ad_type_id:
+            q = q.filter(admission_type_id=ad_type_id)
+
+        return q
+
+class FacultyViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIView):
         
     queryset = Faculty.objects.all()
     serializer_class = FacultySerializer
+    
+class BannerViewSet(viewsets.ViewSet, generics.ListAPIView):
+    queryset = Banner.objects.all()
+    serializer_class = BannerSerializer
