@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'rest_framework',
     'drf_yasg',
-    'oauth2_provider'
+    'oauth2_provider',
+    'corsheaders',
 ]
 
 REST_FRAMEWORK = {
@@ -59,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'admissionapp.urls'
@@ -150,4 +152,18 @@ CKEDITOR_UPLOAD_PATH = "ckeditor/admissions/"
 # auth user
 AUTH_USER_MODEL = 'admissions.UserAccount'
 
-# 
+# oAuth2 expiration
+OAUTH_ACCESS_TOKEN_MODEL = 'oauth2_provider.models.AccessToken'
+OAUTH2_PROVIDER = {
+    'ACCESS_TOKEN_EXPIRE_SECONDS': 3600,
+    'REFRESH_TOKEN_EXPIRE_SECONDS': 604800,
+    'ROTATE_REFRESH_TOKEN': True,
+
+    'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'groups': 'Access to your groups'}
+}
+
+CLIENT_ID = 'EKho5hbl5jlA17rucOSMeoPGK1uS01W7G5e2Q9z0'
+CLIENT_SECRET = '2VuzRtTWGHNGMk1B8qYDtZi6jfRWP2md3MwZ27YENpUdpsvsXo2Es0XgkS9j95vyRYf1xa2U1DujkRSKCSxulAvJtD6vVPK7ILZMvuEJuqRriBhGI11MMpyV9xyipFNk'
+
+# cors
+CORS_ORIGIN_ALLOW_ALL = True

@@ -3,12 +3,13 @@ from rest_framework import viewsets, generics, permissions, parsers, status
 from rest_framework.decorators import action
 from rest_framework.views import Response
 from .paginators import AdmissionsDetailsPaginator
-from .models import Admission, AdmissionType, Banner, Faculty
+from .models import Admission, AdmissionType, Banner, Faculty, UserAccount
 from .serializers import (
    AdmissionSerializer,
    AdmissionTypeSerializer,
    FacultySerializer,
    BannerSerializer,
+   UserAccountSerializer,
 )
 
 
@@ -55,3 +56,25 @@ class FacultyViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAP
 class BannerViewSet(viewsets.ViewSet, generics.ListAPIView):
     queryset = Banner.objects.all()
     serializer_class = BannerSerializer
+    
+
+class UserViewSet(viewsets.ViewSet, generics.CreateAPIView):
+    queryset = UserAccount.objects.filter(is_active=True)
+    serializer_class = UserAccountSerializer
+    parser_classes = [parsers.MultiPartParser, ]
+
+    def get_permissions(self):
+        if self.action in ['current_user']:
+            return [permissions.IsAuthenticated()]
+
+        return [permissions.AllowAny()]
+
+    @action(methods=['get', 'put'], detail=False, url_path='current-user')
+    def current_user(self, request):
+        u = request.user
+        if request.method.__eq__('PUT'):
+            for k, v in request.data.items():
+                setattr(u, k, v)
+            u.save()
+
+        return Response(UserAccountSerializer(u, context={'request': request}).data)

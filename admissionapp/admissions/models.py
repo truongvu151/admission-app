@@ -17,13 +17,12 @@ class BaseModel(models.Model):
         ordering = ["id"]
 # Model User
 class UserAccount(AbstractUser):
+    avatar = models.ImageField(upload_to='users/%Y/%m', null=True)
     is_online = models.DateTimeField(default=timezone.now)
 
 class UserProfile(BaseModel):
     user = models.OneToOneField(UserAccount, related_name="user_profile", on_delete=models.CASCADE)
     about = models.TextField()
-    avatar = models.ImageField(upload_to='users/%Y/%m', null=True)
-
 
     def __str__(self):
         return self.user.username
