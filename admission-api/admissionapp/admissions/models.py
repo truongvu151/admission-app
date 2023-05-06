@@ -84,14 +84,21 @@ class Video(BaseModel):
         return self.url
     
 # Model Comment
-# class Comment(BaseModel):
-#     content = models.CharField(max_length=255)
-#     admission = models.ForeignKey(Admission, on_delete=models.CASCADE)
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     consultant = models.ForeignKey(Consultant, on_delete=models.CASCADE)
+class Comment(BaseModel):
+    content = models.TextField()
+    admission = models.ForeignKey(Admission, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     
-#     def __str__(self):
-#         return self.content
+    def __str__(self):
+        return self.content
+    
+class ReplyComment(BaseModel):
+    user = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='replies')
+    content = models.TextField()
+
+    def __str__(self):
+        return self.content
 # Model Livestream
 class Livestream(BaseModel):
     title = models.TextField(max_length=100)
@@ -116,3 +123,9 @@ class Question(BaseModel):
     def __str__(self):
         return self.title
     
+# Model FAQ
+class FAQ(models.Model):
+    question = models.CharField(max_length=255)
+    answer = models.TextField()
+
+

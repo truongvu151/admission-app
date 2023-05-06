@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Admission, AdmissionType, Banner, Faculty, UserAccount, Video
+from .models import FAQ, Admission, AdmissionType, Banner, Comment, Livestream, Question, ReplyComment, Faculty, UserAccount, Video
 
 
 
@@ -52,6 +52,8 @@ class BannerSerializer(ImageSerializer):
         model = Banner
         fields = ['id', 'name', 'image']
         
+# This is a serializer class for a user account model that includes a method to get the user's avatar
+# image and overrides the create method to set the user's password and save the user account.
 class UserAccountSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField(source='avatar')
 
@@ -74,3 +76,34 @@ class UserAccountSerializer(serializers.ModelSerializer):
             'avatar': {'write_only': True},
             'password': {'write_only': True}
         }
+        
+class ReplyCommentSerializer(serializers.ModelSerializer):
+    user = UserAccountSerializer()
+    class Meta:
+        model = ReplyComment
+        fields = '__all__'
+
+class CommentSerializer(serializers.ModelSerializer):
+    user = UserAccountSerializer()
+    replies = ReplyCommentSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = ["id", "content", "created_date", "user", "replies"]
+        
+class LivestreamSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Livestream
+        fields = ['__all__']
+
+class QuestionSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Question
+        fields = ['__all__']
+
+class FAQSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FAQ
+        fields = ['id', 'question', 'answer']
