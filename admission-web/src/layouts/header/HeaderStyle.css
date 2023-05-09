@@ -1,0 +1,40 @@
+/* Modify the background color */
+.navbar-custom {
+    background-color: #1150A0;
+}
+
+.m-brand-text {
+    color: #fff;
+    text-transform: uppercase;
+    float: left;
+    font-weight: 400;
+}
+
+.m-custom {
+    margin-right: auto !important;
+}
+
+.logo {
+  width: 10%;
+}
+
+.nav-link {
+  font-size: 1.2rem;
+  padding: 0 1rem !important;
+  text-decoration: none !important;
+}
+
+.nav-link a {
+  text-decoration: none !important;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+@media (max-width: 575px) {
+  .enroll-btn {
+    margin-top: 1rem;
+  }
+}
+
